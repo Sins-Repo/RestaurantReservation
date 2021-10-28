@@ -1,2 +1,2 @@
-# RestaurantReservation
-Restaurant reservation system written in C++
+# Restaurant Reservation System
+A reservation system written in C++
