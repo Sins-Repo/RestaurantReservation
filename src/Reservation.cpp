@@ -19,10 +19,10 @@ Reservation::Reservation():headptr(nullptr){}
 
 Reservation::~Reservation(){
 	Node* helper = headptr;
-	while(headptr!=NULL){
-        headptr = headptr->next;
-        delete helper;
-        helper = headptr;
+	while (headptr!=NULL) {
+		headptr = headptr->next;
+		delete helper;
+		helper = headptr;
 	}
 	helper = nullptr;
 }
@@ -33,7 +33,7 @@ bool Reservation::is_empty() const{
 
 
 void Reservation::edit_res(const IdType value){
-	if(exist_test(fname)){
+	if (exist_test(fname)) {
 		load();
 		sorting();
 		remove(fname.c_str());
@@ -44,43 +44,47 @@ void Reservation::edit_res(const IdType value){
 	cout << "\n\nYour original record as shown below\n";
 	display_record(value);
 	cout << endl;
-	if(temp!=NULL){
+	if (temp!=NULL) {
 		collect_info(temp);
 		cout << "\n\nUpdated record as shown below\n";
 		display_record(value); 				//updated record displayed
-	}else{
+	} else {
 		cout << "Sorry. No record is found.";
 	}
 	save();
 }
 
 void Reservation::collect_info(Node*& node){
-	do{
+	do {
 		cout << "Select session:";
 		cin >> node -> cust.session;
-	}while(node -> cust.session <= 0 || node -> cust.session > 2);
+	} while (node -> cust.session <= 0 || node -> cust.session > 2);
+	
 	cout << "Enter your surname:";
 	cin >> node -> cust.name;
-	do{
+	
+	do {
 		cout << "Enter menu selection (A/B/C):";
 		cin >> node -> cust.menu_selection;
-	}while(node -> cust.menu_selection > 'C');
+	} while (node -> cust.menu_selection > 'C');
+	
 	cout << "How many Package(pax) " << node->cust.menu_selection << " do you need?:";
 	cin >> node -> cust.pax_no;
 }
 
 void Reservation::cancel_res(const IdType value){
-	if(exist_test(fname)){
+	if (exist_test(fname)) {
 		load();
 		sorting();
 		remove(fname.c_str());
 	}
+	
 	Node* prev = headptr;
 	Node* temp = binarySearch(headptr,value, prev);
-	if(temp != NULL){
-		if(temp == headptr){ 		//compare the pointers, see if they are pointing to the same location
+	if (temp != NULL) {
+		if( temp == headptr) { 		//compare the pointers, see if they are pointing to the same location
 			headptr = headptr->next;	 //the deleted node is the first node
-		}else{
+		} else {
 			prev->next = temp->next;	//the deleted node is not the first node
 		}
 		delete temp;
@@ -133,7 +137,7 @@ Reservation::Node* Reservation::binarySearch(Node*& head,const IdType value, Nod
         // If value is more than mid
         else if (mid -> cust.userID < value){
             if(prev != NULL) //additional
-				prev = mid;
+		prev = mid;
             start = mid -> next;
         }
 
@@ -149,19 +153,20 @@ Reservation::Node* Reservation::binarySearch(Node*& head,const IdType value, Nod
 }
 
 void Reservation::display_record(const IdType value){
-	if(exist_test(fname)){
+	if (exist_test(fname)) {
 		load();
 		sorting();
 	}
+	
 	Node* prev = nullptr;
 	Node* temp = binarySearch(headptr,value,prev);
-	if(temp != NULL){
+	if (temp != NULL) {
 		cout << "\nUser ID:" << temp->cust.userID << endl;
 		cout << "Name:" << temp->cust.name << endl;
 		cout << "Session:" << temp->cust.session << endl;
 		cout << "Pax:" << temp->cust.pax_no << endl;
 		cout << "Menu_selection:" << temp->cust.menu_selection << endl;
-	}else{
+	} else {
 		cout << "\nRecord doesn't exist.\n";
 	}
 }
@@ -169,10 +174,10 @@ void Reservation::display_record(const IdType value){
 void Reservation::getcount(Node*& head){
     Node* temp = head;
     while(temp != NULL){
-		if(temp->cust.session == 1)
-			counter_sess1++;
-		else
-			counter_sess2++;
+	if(temp->cust.session == 1)
+		counter_sess1++;
+	else
+		counter_sess2++;
         temp = temp->next;
     }
 	temp = nullptr;
@@ -188,10 +193,10 @@ Reservation::Node* Reservation::merge_sorted_list(Node*& list1, Node*& list2){
 	//recursive
 	//perform comparison
 	//sort by ID
-	if(list1->cust.userID <= list2->cust.userID){
+	if (list1->cust.userID <= list2->cust.userID) {
 		sorted = list1;
 		sorted->next = merge_sorted_list(list1->next,list2);
-	}else{
+	} else {
 		sorted = list2;
 		sorted->next = merge_sorted_list(list1,list2->next);
 	}
@@ -206,9 +211,9 @@ void Reservation::split( Node*& start, Node*& front, Node*& back){
 	ptr1 = start->next;
 
 	//ptr1 incremented twice, ptr2 incremented once
-	while(ptr1 != NULL){
+	while (ptr1 != NULL) {
 		ptr1 = ptr1-> next;
-		if(ptr1 != NULL){
+		if (ptr1 != NULL) {
 			ptr1 = ptr1 ->next;
 			ptr2 = ptr2 ->next;
 		}
@@ -227,7 +232,7 @@ void Reservation::merge_sort(Node*& head){
 	//if it's not null or it's not the last node
 	//then it'll continue spliting
 	//else return nothing
-	if(tmp == NULL || (head->next == NULL))
+	if (tmp == NULL || (head->next == NULL))
 		return;
 
 	split(tmp, ptr1, ptr2);
@@ -263,19 +268,19 @@ void Reservation::notification(Node*& node){
 }
 
 void Reservation::make_reservation(){
-	if(exist_test(fname)){
+	if (exist_test(fname)) {
 		load();
 		remove(fname.c_str());
 	}
 
-		Node* node = new Node;
-		cout << "Select session:";
-		cin >> node -> cust.session;
-		bool flag = false;
-		if(node -> cust.session == 1)flag = true;
-		cout << "Your selected session: " << node -> cust.session << endl;
+	Node* node = new Node;
+	cout << "Select session:";
+	cin >> node -> cust.session;
+	bool flag = false;
+	if (node -> cust.session == 1) flag = true;
+	cout << "Your selected session: " << node -> cust.session << endl;
 
-		if((flag && (Reservation::counter_sess1 < MAX_PAX)) || (!flag && (Reservation::counter_sess2 < MAX_PAX))){
+	if((flag && (Reservation::counter_sess1 < MAX_PAX)) || (!flag && (Reservation::counter_sess2 < MAX_PAX))){
             cout << "Enter your surname:";
             cin >> node -> cust.name;
             do{
