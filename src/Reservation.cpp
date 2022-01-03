@@ -232,7 +232,7 @@ void Reservation::merge_sort(Node*& head){
 	//if it's not null or it's not the last node
 	//then it'll continue spliting
 	//else return nothing
-	if (tmp == NULL || (head->next == NULL))
+	if (tmp == NULL || (tmp->next == NULL))
 		return;
 
 	split(tmp, ptr1, ptr2);
